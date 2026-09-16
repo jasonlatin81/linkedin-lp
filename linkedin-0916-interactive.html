@@ -45,6 +45,94 @@ body {
   overflow: hidden;
   background: var(--bg);
 }
+
+/* 桌面端：让 .deck 和 .page 不再是 100vw, 由 syncDesktopStage() JS 控制 */
+@media (min-aspect-ratio: 9/16) {
+  .deck { width: auto; height: auto; }
+  .page { flex: 0 0 auto; width: auto; height: auto; }
+  /* P1 stat 行: 桌面模式下 page 高度只有 720, bottom:220 会出卡片, 改为 bottom:90 */
+  .p1-stat { bottom: 90px !important; }
+}
+
+/* ====== Desktop Wrapper (aspect > 9/16) ====== */
+/* 桌面端: 居中 9:16 卡片 + 缩略图导航, 解决 9:16 设计在桌面浏览器错位 */
+@media (min-aspect-ratio: 9/16) {
+  html, body { background: #141414; }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .deck-stage {
+    /* C 方案: 固定 9:16 卡片 405×720 (iPhone 13 mini 标准), 不响应桌面尺寸 */
+    /* 使用 transform: scale 让原 1080×1920 设计按比例缩放 */
+    width: 405px;
+    height: 720px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06);
+    background: #141414;
+  }
+  /* deck 内部维持原 1080×1920 设计, 通过 transform 整体缩放 */
+  .deck {
+    width: calc(1080px * 6);  /* 6 页横向排列 */
+    height: 1920px;
+    transform-origin: 0 0;
+    transform: scale(0.375);  /* 405/1080 = 0.375, 自动按 stage 尺寸缩放 */
+  }
+  /* 桌面端隐藏移动端导航 */
+  .nav, .arrows { display: none !important; }
+  /* 缩略图导航条 */
+  .thumb-rail {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 14px;
+    z-index: 200;
+    /* 在卡片外, 不被卡片遮挡 */
+    background: rgba(20,20,20,0.7);
+    backdrop-filter: blur(8px);
+    padding: 10px 16px;
+    border-radius: 12px;
+  }
+  .thumb-rail .thumb {
+    width: 60px; height: 107px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid transparent;
+    border-radius: 7px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.06em;
+    transition: all 0.22s;
+    font-family: "Inter", -apple-system, sans-serif;
+  }
+  .thumb-rail .thumb:hover {
+    background: rgba(255,255,255,0.10);
+    color: rgba(255,255,255,0.85);
+  }
+  .thumb-rail .thumb.active {
+    border-color: #E8453C;
+    color: #E8453C;
+    background: rgba(232,69,60,0.06);
+  }
+}
+
+/* 移动端 (aspect ≤ 9/16) — LinkedIn 实际场景, 保持原 6 页水平滑动 */
+@media (max-aspect-ratio: 9/16) {
+  .deck-stage { display: contents; }
+  .thumb-rail { display: none; }
+}
 .content {
   position: absolute;
   top: 70px; left: 50px; right: 50px; bottom: 90px;
@@ -58,9 +146,9 @@ body {
   position: absolute;
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 280px;
+  font-size: 200px;
   font-weight: 900;
-  color: rgba(8,31,92,0.030);
+  color: rgba(8,31,92,0.028);
   pointer-events: none;
   letter-spacing: 0.04em;
   z-index: 0;
@@ -149,7 +237,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
-  padding-top: 100px;
+  padding-top: 140px;
   padding-bottom: 30px;
   position: relative;
   z-index: 2;
@@ -170,32 +258,32 @@ body {
   vertical-align: middle;
 }
 .p1-headline {
-  font-size: 86px;
+  font-size: 72px;
   font-weight: 900;
-  line-height: 0.96;
+  line-height: 1.00;
   letter-spacing: -0.02em;
   color: var(--ink);
-  margin-top: 28px;
+  margin-top: 36px;
 }
 .p1-headline .accent { color: var(--hero-bright); }
 .p1-sub {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
   color: var(--ink-soft);
-  line-height: 1.35;
-  margin-top: 26px;
-  max-width: 880px;
+  line-height: 1.4;
+  margin-top: 32px;
+  max-width: 920px;
 }
 .p1-stat {
   display: flex;
   gap: 36px;
-  margin-top: 48px;
+  margin-top: 56px;
   border-top: 1px solid var(--rule);
   padding-top: 24px;
   position: absolute;
   left: 50px;
   right: 50px;
-  bottom: 180px;
+  bottom: 220px;
 }
 .p1-stat-cell .label {
   font-size: 12px;
@@ -632,6 +720,7 @@ body {
 <body>
 
 <!-- ====== Deck ====== -->
+<div class="deck-stage" id="stage">
 <div class="deck" id="deck">
 
   <!-- ============ P1 Cover ============ -->
@@ -910,6 +999,11 @@ body {
   </div>
 
 </div>
+</div>
+<!-- /.deck-stage -->
+
+<!-- ====== Thumb Rail (desktop) ====== -->
+<div class="thumb-rail" id="thumb-rail"></div>
 
 <!-- ====== Nav ====== -->
 <div class="nav" id="nav"></div>
@@ -961,17 +1055,18 @@ function drawSulfur() {
   const isApprox = [true, false, false, false, false];
 
   const N = prices.length;
-  // viewBox 980×1720：base 1380，起伏 950（slice 模式：填满 chart-wrap 容器，按 9:16 比例裁剪）
+  // viewBox 980×1720：图表绘制区集中在中部（base=1250，起伏=850）
+  // 上方留 250px 给 Unit / 标题区，下方留 220px 给 日期 + bottom-bar 缓冲
   const xLeft = 70;
   const xRight = 940;
   const xStep = (xRight - xLeft) / (N - 1);
   const x = d => xLeft + d * xStep;
-  const base = 1380;
+  const base = 1250;
   const min = 7400, max = 8500;
-  const y = v => base - (v - min) / (max - min) * 950;
+  const y = v => base - (v - min) / (max - min) * 850;
 
   // Y 轴 grid + 标签
-  const yTicks = [7500, 7800, 8100, 8400];
+  const yTicks = [7600, 7900, 8200, 8500];
   yTicks.forEach(v => {
     const yy = y(v);
     el(s, 'line', {
@@ -1069,24 +1164,24 @@ function drawSulfur() {
     style: 'animation-delay:1.0s'
   }, 'APPROX');
 
-  // 跌幅标注（最后一段 9/12→9/15）
-  const dropX = (x(2) + x(4)) / 2;
-  const dropY = (y(prices[2]) + y(prices[4])) / 2 - 130;
+  // 跌幅标注（最后一段 9/12→9/15）— 放在 Sep 12 圆点上方空白处，不挡数据
+  const dropX = (x(1) + x(2)) / 2 + 20;
+  const dropY = y(prices[2]) - 240;
   txt(s, {
     x: dropX, y: dropY,
-    'font-size': 42, 'font-weight': 900,
+    'font-size': 56, 'font-weight': 900,
     fill: HERO_BRIGHT, 'text-anchor': 'middle',
     'letter-spacing': '-.01em',
     class: 'fade',
     style: 'animation-delay:2.6s'
   }, '-7.76%');
 
-  // 副标题：3-session drop
+  // 副标题：3-session drop — 紧贴 -7.76% 下方
   txt(s, {
-    x: dropX, y: dropY + 38,
-    'font-size': 20, 'font-weight': 700,
+    x: dropX, y: dropY + 50,
+    'font-size': 22, 'font-weight': 700,
     fill: MUT, 'text-anchor': 'middle',
-    'letter-spacing': '.08em',
+    'letter-spacing': '.10em',
     class: 'fade',
     style: 'animation-delay:2.7s'
   }, '3-SESSION DROP');
@@ -1108,6 +1203,52 @@ buildNav();
 function updateNav() {
   document.querySelectorAll('#nav .dot').forEach((d, i) => {
     d.classList.toggle('active', i === current);
+  });
+}
+
+// ============ Thumb Rail (desktop) ============
+const THUMB_LABELS = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'];
+function buildThumbRail() {
+  const rail = document.getElementById('thumb-rail');
+  if (!rail) return;
+  for (let i = 0; i < TOTAL; i++) {
+    const t = document.createElement('div');
+    t.className = 'thumb' + (i === 0 ? ' active' : '');
+    t.dataset.idx = i;
+    t.textContent = THUMB_LABELS[i];
+    t.addEventListener('click', () => go(i));
+    rail.appendChild(t);
+  }
+}
+function updateThumbRail() {
+  document.querySelectorAll('#thumb-rail .thumb').forEach((t, i) => {
+    t.classList.toggle('active', i === current);
+  });
+}
+
+// ============ Desktop Stage Sync ============
+/* C 方案: 固定 405×720 卡片, deck 内容维持 1080×1920, transform: scale(0.375) 缩放 */
+/* 平移用"虚拟坐标": deck.style.transform = translateX + scale */
+const STAGE_W = 405;
+const STAGE_H = 720;
+const DECK_PAGE_W = 1080;  // 原设计 1 页宽
+const DECK_SCALE = STAGE_W / DECK_PAGE_W;  // 0.375
+function setDesktopDeckTransform(idx, animate) {
+  const deck = document.getElementById('deck');
+  deck.style.transition = animate ? '' : 'none';
+  /* 注意: 因为 deck 已经 scale(0.375), translateX 必须用缩放后的实际像素 (idx * 405) */
+  /* 否则会被 scale 进一步缩放 */
+  deck.style.transform = `translateX(-${idx * STAGE_W}px) scale(${DECK_SCALE})`;
+}
+function syncDesktopStage() {
+  const deck = document.getElementById('deck');
+  if (!deck) return;
+  deck.style.width = (DECK_PAGE_W * 6) + 'px';
+  deck.style.height = '1920px';
+  setDesktopDeckTransform(current, false);
+  document.querySelectorAll('.page').forEach(p => {
+    p.style.width = DECK_PAGE_W + 'px';
+    p.style.height = '1920px';
   });
 }
 
@@ -1146,11 +1287,17 @@ function go(idx) {
   const newIdx = Math.max(0, Math.min(TOTAL - 1, idx));
   if (newIdx === current) return;
   current = newIdx;
-  document.getElementById('deck').style.transform = `translateX(-${current * 100}vw)`;
+  const isDesktop = window.matchMedia('(min-aspect-ratio: 9/16)').matches;
+  if (isDesktop) {
+    setDesktopDeckTransform(current, true);
+  } else {
+    document.getElementById('deck').style.transform = `translateX(-${current * 100}vw)`;
+  }
   if (current === 1) drawSulfur();
   const pages = document.querySelectorAll('.page');
   replayPageAnimations(pages[current]);
   updateNav();
+  updateThumbRail();
   history.replaceState(null, '', `#page-${current + 1}`);
 }
 
@@ -1183,18 +1330,51 @@ function parseHash() {
     if (idx >= 0 && idx < TOTAL) {
       current = idx;
       const deck = document.getElementById('deck');
-      deck.style.transition = 'none';
-      deck.style.transform = `translateX(-${current * 100}vw)`;
+      const isDesktop = window.matchMedia('(min-aspect-ratio: 9/16)').matches;
+      if (isDesktop) {
+        setDesktopDeckTransform(current, false);
+      } else {
+        deck.style.transform = `translateX(-${current * 100}vw)`;
+      }
       const pages = document.querySelectorAll('.page');
       if (current === 1) drawSulfur();
       replayPageAnimations(pages[current]);
       requestAnimationFrame(() => requestAnimationFrame(() => deck.style.transition = ''));
       updateNav();
+      updateThumbRail();
     }
   }
 }
+
+// ============ Init ============
+buildThumbRail();
 parseHash();
+
+// ============ Desktop resize sync ============
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if (window.matchMedia('(min-aspect-ratio: 9/16)').matches) {
+      syncDesktopStage();
+    } else {
+      // 移动端重置 deck 宽度到 6*100vw
+      const deck = document.getElementById('deck');
+      deck.style.width = '';
+      deck.style.height = '';
+      deck.style.transform = `translateX(-${current * 100}vw)`;
+      document.querySelectorAll('.page').forEach(p => { p.style.width = ''; p.style.height = ''; });
+    }
+  }, 100);
+});
 window.addEventListener('hashchange', parseHash);
+
+// ============ 首次同步桌面 stage (DOMContentLoaded 后) ============
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', syncDesktopStage);
+} else {
+  syncDesktopStage();
+}
 </script>
 </body>
 </html>
