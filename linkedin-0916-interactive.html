@@ -1,0 +1,1200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1080" />
+<title>ROCCA · Fertilizer & Energy Market Brief · Sep 16, 2026</title>
+<style>
+:root {
+  --bg:        #F7F2EB;
+  --ink:       #081F5C;
+  --ink-soft:  #081F5C;
+  --muted:     #6B7280;
+  --faint:     #9CA3AF;
+  --grid:      #E5E0D7;
+  --hero:      #081F5C;
+  --hero-bright: #E8453C;
+  --data:      #081F5C;
+  --rule:      #E5E0D7;
+  --bar-bg:    #F0EDE6;
+  --up:        #E8453C;
+  --down:      #2E7D5B;
+  --flat:      #B8B0A2;
+}
+@font-face { font-family: "Inter"; src: local("Inter"), local("SF Pro Display"), local("Helvetica Neue"); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #E5E0D7; }
+body {
+  font-family: "Inter", -apple-system, "Helvetica Neue", "PingFang SC", sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ====== Deck ====== */
+.deck {
+  display: flex;
+  width: calc(100vw * 6);
+  height: 100vh;
+  transition: transform 0.55s cubic-bezier(.2,.7,.3,1.1);
+}
+.page {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+.content {
+  position: absolute;
+  top: 70px; left: 50px; right: 50px; bottom: 90px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* ====== Watermark ====== */
+.watermark {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 280px;
+  font-weight: 900;
+  color: rgba(8,31,92,0.030);
+  pointer-events: none;
+  letter-spacing: 0.04em;
+  z-index: 0;
+}
+.page.no-watermark .watermark { display: none; }
+
+/* ====== Top / Bottom Bar ====== */
+.top-bar {
+  position: absolute;
+  top: 36px; left: 50px; right: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 3;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+.top-bar .brand { font-weight: 900; }
+.top-bar .meta { color: var(--muted); font-weight: 600; }
+
+.bottom-bar {
+  position: absolute;
+  left: 50px; right: 50px; bottom: 36px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  z-index: 3;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.bottom-bar .phone {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.bottom-bar .pg {
+  margin-left: auto;
+  color: var(--ink);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+/* ====== Animations ====== */
+.page { animation: pageEnter 0.6s ease both; }
+@keyframes pageEnter {
+  from { opacity: 0; transform: scale(0.985); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.fade { animation: fade 0.9s ease both; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 2.5s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.slide-up { animation: slide-up 0.8s cubic-bezier(.2,.7,.3,1.1) both; }
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pop 0.5s cubic-bezier(.2,.7,.3,1.3) both;
+}
+@keyframes pop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+.bar-grow {
+  transform-origin: left center;
+  animation: barGrow 1.8s cubic-bezier(.2,.7,.3,1.1) both;
+}
+@keyframes barGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ====== P1 Cover ====== */
+.p1-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  padding-top: 100px;
+  padding-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+.p1-eyebrow {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.p1-eyebrow .dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: var(--hero-bright);
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.p1-headline {
+  font-size: 86px;
+  font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-top: 28px;
+}
+.p1-headline .accent { color: var(--hero-bright); }
+.p1-sub {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  line-height: 1.35;
+  margin-top: 26px;
+  max-width: 880px;
+}
+.p1-stat {
+  display: flex;
+  gap: 36px;
+  margin-top: 48px;
+  border-top: 1px solid var(--rule);
+  padding-top: 24px;
+  position: absolute;
+  left: 50px;
+  right: 50px;
+  bottom: 180px;
+}
+.p1-stat-cell .label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.p1-stat-cell .value {
+  font-size: 44px;
+  font-weight: 900;
+  color: var(--ink);
+  margin-top: 6px;
+  letter-spacing: -0.02em;
+}
+.p1-stat-cell.up .value { color: var(--up); }
+.p1-stat-cell.down .value { color: var(--down); }
+.p1-stat-cell .delta {
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* ====== P2 Trend ====== */
+.p2-chart-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 14px;
+  overflow: hidden;
+}
+.p2-chart-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.p2-chart-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.p2-chart-unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.chart-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.chart-svg .axis-line { stroke: var(--grid); stroke-width: 1; }
+.chart-svg .grid-line { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 2 4; }
+.chart-svg .data-line {
+  fill: none;
+  stroke: var(--data);
+  stroke-width: 3;
+}
+.chart-svg .pt { stroke: var(--data); stroke-width: 0; }
+.chart-svg .pt-last { fill: var(--hero-bright); stroke: var(--hero-bright); stroke-width: 2; }
+.chart-svg .pt-mid { fill: var(--hero); stroke: var(--hero); stroke-width: 0; }
+.chart-svg .pt-faint { fill: var(--data); opacity: 0.55; }
+.chart-svg .pt-faint-line {
+  fill: none; stroke: var(--data); stroke-width: 2;
+  stroke-dasharray: 4 4; opacity: 0.5;
+}
+.chart-svg .pt-value {
+  font-size: 22px; font-weight: 800;
+  paint-order: stroke; stroke: var(--bg); stroke-width: 4px;
+}
+.chart-svg .pt-date {
+  font-size: 18px; font-weight: 600;
+  fill: var(--muted); letter-spacing: 0.08em;
+}
+.chart-svg .pt-axis-label {
+  font-size: 16px; font-weight: 700;
+  fill: var(--muted); letter-spacing: 0.06em;
+}
+
+/* ====== P3 Prices ====== */
+.p3-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  flex: 1;
+  min-height: 0;
+  margin-top: 30px;
+  padding-bottom: 100px;
+}
+.p3-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+.p3-sub {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.price-row {
+  display: grid;
+  grid-template-columns: 220px 1fr 150px;
+  align-items: center;
+  gap: 22px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.price-row:last-child { border-bottom: 0; }
+.price-row .name {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.price-row .name .sub {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.price-row .price-track {
+  position: relative;
+  height: 18px;
+  background: var(--bar-bg);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.price-row .price-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: var(--ink);
+  border-radius: 8px;
+}
+.price-row.up .price-bar { background: var(--up); }
+.price-row.down .price-bar { background: var(--down); }
+.price-row.flat .price-bar { background: var(--muted); }
+.price-row.flat .price-num .delta { color: var(--muted); }
+.price-row .price-num {
+  text-align: right;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.price-row .price-num .unit {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+.price-row .price-num .delta {
+  font-size: 14px;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.price-row.up .price-num .delta { color: var(--up); }
+.price-row.down .price-num .delta { color: var(--down); }
+
+/* ====== P4 View ====== */
+.p4-view {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 18px;
+  flex: 1;
+  min-height: 0;
+  margin-top: 30px;
+  padding-bottom: 100px;
+  align-content: start;
+}
+.view-card {
+  background: #FFFFFF;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: flex-start;
+  min-height: 220px;
+}
+.view-card .label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.view-card .value {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-top: 6px;
+  line-height: 1;
+}
+.view-card .value .unit {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-left: 4px;
+}
+.view-card .delta {
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.view-card .delta.up { color: var(--up); }
+.view-card .delta.down { color: var(--down); }
+.view-card .note {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-top: 6px;
+}
+.p4-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.p4-sub {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ====== P5 Action ====== */
+.p5-title-wrap {
+  margin-top: 30px;
+}
+.p5-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.p5-sub {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  margin-bottom: 18px;
+}
+.action-list-spacer {
+  flex: 0 0 60px;
+}
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  flex: 1;
+  min-height: 0;
+  margin-top: 0;
+  justify-content: flex-start;
+  padding-bottom: 90px;
+}
+.action-item {
+  background: #FFFFFF;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--ink);
+  border-radius: 14px;
+  padding: 32px 30px;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 22px;
+  align-items: center;
+}
+.action-item.watch   { border-left-color: var(--hero-bright); }
+.action-item.hold    { border-left-color: var(--ink); }
+.action-item.restock { border-left-color: var(--down); }
+.action-item.track   { border-left-color: var(--ink); }
+.action-item .num {
+  font-size: 44px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+.action-item.watch .num   { color: var(--hero-bright); }
+.action-item.restock .num { color: var(--down); }
+.action-item .body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.action-item .head {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.action-item .desc {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ====== P6 Brand ====== */
+.p6-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+  padding-top: 220px;
+  padding-bottom: 100px;
+  position: relative;
+  z-index: 2;
+}
+.p6-tag {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.p6-headline {
+  font-size: 88px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 0.95;
+  max-width: 880px;
+}
+.p6-headline .accent { color: var(--hero-bright); }
+.p6-desc {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  max-width: 780px;
+  margin-top: 28px;
+}
+.p6-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 48px;
+  border-top: 1px solid var(--rule);
+  padding-top: 28px;
+  width: 100%;
+  max-width: 600px;
+}
+.p6-contact-row {
+  display: flex;
+  gap: 14px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.005em;
+  align-items: baseline;
+}
+.p6-contact-row .lbl {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  width: 90px;
+}
+.p6-contact-row .phone { font-weight: 700; letter-spacing: 0.02em; }
+
+/* ====== Nav ====== */
+.nav {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 100;
+}
+.nav .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--grid);
+  border: 1px solid rgba(8,31,92,0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.nav .dot.active {
+  width: 10px; height: 10px;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.arrows {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}
+.arrows button {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- ====== Deck ====== -->
+<div class="deck" id="deck">
+
+  <!-- ============ P1 Cover ============ -->
+  <div class="page" id="p1">
+    <div class="watermark">ROCCA</div>
+    <div class="top-bar">
+      <div class="brand">ROCCA</div>
+      <div class="meta">DAILY MARKET BRIEF · SEP 16, 2026</div>
+    </div>
+    <div class="content">
+      <div class="p1-hero">
+        <div>
+          <div class="p1-eyebrow slide-up"><span class="dot"></span>MARKET ALERT · 6 SECTORS</div>
+          <div class="p1-headline slide-up" style="animation-delay:.08s">
+            Hormuz Risks Oil,<br/>
+            Sulfur <span class="accent">Breaks Down</span>,<br/>
+            Lithium Below 130K
+          </div>
+          <div class="p1-sub slide-up" style="animation-delay:.16s">
+            Strait tensions lift crude 4.38% to a 4-month high — sulfur drops 7.76% in 3 sessions, breaking the 8,000 floor. Phosphate cost support fades.
+          </div>
+        </div>
+        <div>
+          <div class="p1-stat">
+            <div class="p1-stat-cell up slide-up" style="animation-delay:.24s">
+              <div class="label">WTI Crude</div>
+              <div class="value">$105.83<span class="delta">+4.38%</span></div>
+            </div>
+            <div class="p1-stat-cell down slide-up" style="animation-delay:.32s">
+              <div class="label">Sulfur (Brimstone)</div>
+              <div class="value">¥7,704<span class="delta">-7.76%</span></div>
+            </div>
+            <div class="p1-stat-cell down slide-up" style="animation-delay:.40s">
+              <div class="label">Lithium Carb. LC2701</div>
+              <div class="value">¥129,120<span class="delta">-3.32%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>www.roccachem.com</span>
+      <span>·</span>
+      <span>info@roccachem.com</span>
+      <span>·</span>
+      <span class="phone">+86-18108272457</span>
+      <span class="pg">01 / 06</span>
+    </div>
+  </div>
+
+  <!-- ============ P2 Trend — Sulfur 5-day ============ -->
+  <div class="page" id="p2">
+    <div class="watermark">ROCCA</div>
+    <div class="top-bar">
+      <div class="brand">ROCCA</div>
+      <div class="meta">P2 · 5-day Trend</div>
+    </div>
+    <div class="content">
+      <div class="p2-chart-meta slide-up">
+        <div class="p2-chart-title">Sulfur (Brimstone) — 5-day Break</div>
+        <div class="p2-chart-unit">CNY/t · Sep 9 – Sep 15</div>
+      </div>
+      <div class="p2-chart-wrap">
+        <svg class="chart-svg" id="sulfur-svg" viewBox="0 0 980 1720" preserveAspectRatio="xMidYMid slice"></svg>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>www.roccachem.com</span>
+      <span>·</span>
+      <span>info@roccachem.com</span>
+      <span>·</span>
+      <span class="phone">+86-18108272457</span>
+      <span class="pg">02 / 06</span>
+    </div>
+  </div>
+
+  <!-- ============ P3 Prices — 6 products ============ -->
+  <div class="page" id="p3">
+    <div class="watermark">ROCCA</div>
+    <div class="top-bar">
+      <div class="brand">ROCCA</div>
+      <div class="meta">P3 · Today's Prices</div>
+    </div>
+    <div class="content">
+      <div class="slide-up">
+        <div class="p3-title">Snapshot — Sep 15, 2026</div>
+        <div class="p3-sub">6 products · benchmark prices</div>
+      </div>
+      <div class="p3-prices">
+        <div class="price-row up slide-up" style="animation-delay:.08s">
+          <div class="name">WTI Crude<span class="sub">OCT · USD/bbl</span></div>
+          <div class="price-track"><div class="price-bar bar-grow" style="width:46%;animation-delay:.16s"></div></div>
+          <div class="price-num">$105.83<span class="unit">USD/bbl</span><span class="delta">+4.38%</span></div>
+        </div>
+        <div class="price-row down slide-up" style="animation-delay:.18s">
+          <div class="name">Sulfur<span class="sub">BrMmStOne · CNY/t</span></div>
+          <div class="price-track"><div class="price-bar bar-grow" style="width:42%;animation-delay:.26s"></div></div>
+          <div class="price-num">¥7,704<span class="unit">CNY/t</span><span class="delta">-7.76%</span></div>
+        </div>
+        <div class="price-row flat slide-up" style="animation-delay:.28s">
+          <div class="name">MAP 55% powder<span class="sub">PHOSPHATE · CNY/t</span></div>
+          <div class="price-track"><div class="price-bar bar-grow" style="width:30%;animation-delay:.36s"></div></div>
+          <div class="price-num">¥4,100<span class="unit">CNY/t</span><span class="delta">flat</span></div>
+        </div>
+        <div class="price-row flat slide-up" style="animation-delay:.38s">
+          <div class="name">KCl 62% white<span class="sub">POTASH · CNY/t</span></div>
+          <div class="price-track"><div class="price-bar bar-grow" style="width:26%;animation-delay:.46s"></div></div>
+          <div class="price-num">¥3,080<span class="unit">CNY/t</span><span class="delta">flat</span></div>
+        </div>
+        <div class="price-row up slide-up" style="animation-delay:.48s">
+          <div class="name">Urea (small gran.)<span class="sub">NITROGEN · CNY/t</span></div>
+          <div class="price-track"><div class="price-bar bar-grow" style="width:22%;animation-delay:.56s"></div></div>
+          <div class="price-num">¥1,780<span class="unit">CNY/t</span><span class="delta">+0.70%</span></div>
+        </div>
+        <div class="price-row down slide-up" style="animation-delay:.58s">
+          <div class="name">Lithium Carb. LC2701<span class="sub">BATTERY · CNY/t</span></div>
+          <div class="price-track"><div class="price-bar bar-grow" style="width:88%;animation-delay:.66s"></div></div>
+          <div class="price-num">¥129,120<span class="unit">CNY/t</span><span class="delta">-3.32%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>www.roccachem.com</span>
+      <span>·</span>
+      <span>info@roccachem.com</span>
+      <span>·</span>
+      <span class="phone">+86-18108272457</span>
+      <span class="pg">03 / 06</span>
+    </div>
+  </div>
+
+  <!-- ============ P4 View — 2x2 ============ -->
+  <div class="page" id="p4">
+    <div class="watermark">ROCCA</div>
+    <div class="top-bar">
+      <div class="brand">ROCCA</div>
+      <div class="meta">P4 · Market View</div>
+    </div>
+    <div class="content">
+      <div class="slide-up">
+        <div class="p4-title">What the numbers mean</div>
+        <div class="p4-sub">4 signals · Sep 15, 2026</div>
+      </div>
+      <div class="p4-view">
+        <div class="view-card slide-up" style="animation-delay:.10s">
+          <div class="label">Sulfur Port Stock</div>
+          <div class="value">980.4<span class="unit">kt</span></div>
+          <div class="delta up">+9.5kt WoW</div>
+          <div class="note">Port inventory accumulating while price breaks support — supply pressure confirmed.</div>
+        </div>
+        <div class="view-card slide-up" style="animation-delay:.20s">
+          <div class="label">India Tender Floor</div>
+          <div class="value">$390.25<span class="unit">/t CFR</span></div>
+          <div class="delta">RCF 1.7Mt cap</div>
+          <div class="note">East-coast floor; west-coast $393.65. RCF shipment deadline Sep 24, 2026.</div>
+        </div>
+        <div class="view-card slide-up" style="animation-delay:.30s">
+          <div class="label">Lithium Supply Gap</div>
+          <div class="value">19.6<span class="unit">kt</span></div>
+          <div class="delta">Demand 177.4kt</div>
+          <div class="note">Sep supply 157.9kt vs demand 177.4kt — yet LC2701 hit 2-month low. Pressure from supply side, not demand.</div>
+        </div>
+        <div class="view-card slide-up" style="animation-delay:.40s">
+          <div class="label">Urea Plant Inventory</div>
+          <div class="value">1.56<span class="unit">Mt</span></div>
+          <div class="delta down">-6.73% WoW</div>
+          <div class="note">Port stock also -29.25% WoW. Tightness supports sentiment — but 3rd batch quota still unverified.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>www.roccachem.com</span>
+      <span>·</span>
+      <span>info@roccachem.com</span>
+      <span>·</span>
+      <span class="phone">+86-18108272457</span>
+      <span class="pg">04 / 06</span>
+    </div>
+  </div>
+
+  <!-- ============ P5 Action ============ -->
+  <div class="page" id="p5">
+    <div class="watermark">ROCCA</div>
+    <div class="top-bar">
+      <div class="brand">ROCCA</div>
+      <div class="meta">P5 · Action Brief</div>
+    </div>
+    <div class="content">
+      <div class="slide-up">
+        <div class="p5-title">4 moves for distributors</div>
+        <div class="p5-sub">Suggested posture · Sep 16, 2026</div>
+      </div>
+      <div class="action-list">
+        <div class="action-item watch slide-up" style="animation-delay:.10s">
+          <div class="num">01</div>
+          <div class="body">
+            <div class="head">Watch sulfur — port inventory is the tell</div>
+            <div class="desc">980kt + rising while price breaks 8,000 CNY. One more week of accumulation confirms a structural leg down — hold phosphate offers.</div>
+          </div>
+        </div>
+        <div class="action-item hold slide-up" style="animation-delay:.20s">
+          <div class="num">02</div>
+          <div class="body">
+            <div class="head">Hold potash, but track Manzhouli offers</div>
+            <div class="desc">62% white at 2,900-2,950 CNY is the weak edge; 3.75Mt port stock caps the upside. Wait for border price to lift before restocking.</div>
+          </div>
+        </div>
+        <div class="action-item restock slide-up" style="animation-delay:.30s">
+          <div class="num">03</div>
+          <div class="body">
+            <div class="head">Restock urea into Sep 20-30 demand window</div>
+            <div class="desc">Huang-Huai-Hai autumn top-dressing starts. Plant stock -6.73% WoW; sentiment bottom in place — small orders only, do not chase above 1,800.</div>
+          </div>
+        </div>
+        <div class="action-item track slide-up" style="animation-delay:.40s">
+          <div class="num">04</div>
+          <div class="body">
+            <div class="head">Track Hormuz — 1.03Mt crude-flow signal</div>
+            <div class="desc">103 commercial vessels diverted, Petroline restart pending. Next 48 hours decide whether WTI breaks $108 or fades back. Crude drives nitrogen cost.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>www.roccachem.com</span>
+      <span>·</span>
+      <span>info@roccachem.com</span>
+      <span>·</span>
+      <span class="phone">+86-18108272457</span>
+      <span class="pg">05 / 06</span>
+    </div>
+  </div>
+
+  <!-- ============ P6 Brand ============ -->
+  <div class="page" id="p6">
+    <div class="watermark">ROCCA</div>
+    <div class="top-bar">
+      <div class="brand">ROCCA</div>
+      <div class="meta">P6 · About ROCCA</div>
+    </div>
+    <div class="content">
+      <div class="p6-brand">
+        <div class="p6-tag slide-up">DAILY MARKET INTELLIGENCE</div>
+        <div class="p6-headline slide-up" style="animation-delay:.10s">
+          From raw<br/>
+          <span class="accent">material</span> to<br/>
+          molecule.
+        </div>
+        <div class="p6-desc slide-up" style="animation-delay:.20s">
+          ROCCA tracks the fertilizer & energy chain every day — sulfur, phosphate, potash, urea, lithium — so distributors can price faster, source smarter, and hedge with confidence.
+        </div>
+        <div class="p6-contact slide-up" style="animation-delay:.30s">
+          <div class="p6-contact-row">
+            <div class="lbl">WEB</div>
+            <div>www.roccachem.com</div>
+          </div>
+          <div class="p6-contact-row">
+            <div class="lbl">EMAIL</div>
+            <div>info@roccachem.com</div>
+          </div>
+          <div class="p6-contact-row">
+            <div class="lbl">TEL</div>
+            <div class="phone">+86-18108272457</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>www.roccachem.com</span>
+      <span>·</span>
+      <span>info@roccachem.com</span>
+      <span>·</span>
+      <span class="phone">+86-18108272457</span>
+      <span class="pg">06 / 06</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====== Nav ====== -->
+<div class="nav" id="nav"></div>
+<div class="arrows">
+  <button id="prev" aria-label="prev">‹</button>
+  <button id="next" aria-label="next">›</button>
+</div>
+
+<script>
+// ============ Constants ============
+const TOTAL = 6;
+let current = 0;
+
+// ============ Sulfur SVG Chart (P2) ============
+const FLOOR = '#E5E0D7';
+const DATA  = '#081F5C';
+const TXT   = '#081F5C';
+const MUT   = '#6B7280';
+const FAINT = '#9CA3AF';
+const HERO  = '#081F5C';
+const HERO_BRIGHT = '#E8453C';
+
+function el(parent, name, attrs) {
+  const e = document.createElementNS('http://www.w3.org/2000/svg', name);
+  for (const k in attrs) {
+    if (k === 'class') e.setAttribute('class', attrs[k]);
+    else if (k === 'style') e.setAttribute('style', attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  parent.appendChild(e);
+  return e;
+}
+function txt(parent, attrs, text) {
+  const e = el(parent, 'text', attrs);
+  e.textContent = text;
+  return e;
+}
+
+function drawSulfur() {
+  const s = document.getElementById('sulfur-svg');
+  if (!s) return;
+  while (s.firstChild) s.removeChild(s.firstChild);
+
+  // 真实数据点（原文给出的 3 个真实日 + 5 日均值补充点）
+  // 数据来源：原文生意社基准 9/12=8352.33，9/14=7869，9/15=7704
+  // 9/10 用 "approximate" 标注（基于 -17.46% 累积与原文趋势判定反推，非精确日内价）
+  const days   = ['Sep 9', 'Sep 10', 'Sep 12', 'Sep 14', 'Sep 15'];
+  const prices = [8352,    8352,     8352,     7869,    7704  ]; // CNY/t
+  const isApprox = [true, false, false, false, false];
+
+  const N = prices.length;
+  // viewBox 980×1720：base 1380，起伏 950（slice 模式：填满 chart-wrap 容器，按 9:16 比例裁剪）
+  const xLeft = 70;
+  const xRight = 940;
+  const xStep = (xRight - xLeft) / (N - 1);
+  const x = d => xLeft + d * xStep;
+  const base = 1380;
+  const min = 7400, max = 8500;
+  const y = v => base - (v - min) / (max - min) * 950;
+
+  // Y 轴 grid + 标签
+  const yTicks = [7500, 7800, 8100, 8400];
+  yTicks.forEach(v => {
+    const yy = y(v);
+    el(s, 'line', {
+      x1: 50, y1: yy, x2: 950, y2: yy,
+      stroke: FLOOR, 'stroke-width': 1, 'stroke-dasharray': '2 4',
+      class: 'fade', style: 'animation-delay:.05s'
+    });
+    txt(s, {
+      x: 50, y: yy - 10, 'font-size': 22, 'font-weight': 700,
+      fill: FAINT, 'text-anchor': 'start', 'letter-spacing': '.04em',
+      class: 'fade'
+    }, v.toString());
+  });
+
+  // X 轴底线
+  el(s, 'line', {
+    x1: 50, y1: base, x2: 950, y2: base,
+    stroke: FLOOR, 'stroke-width': 1, class: 'fade'
+  });
+
+  // Unit 标识
+  txt(s, {
+    x: 50, y: 90, 'font-size': 18, 'font-weight': 700,
+    fill: FAINT, 'letter-spacing': '.08em',
+    class: 'fade'
+  }, 'Unit: CNY/t');
+
+  // Approx 区段：Sep 9 / Sep 10 用虚线
+  // 段1（approximate）：点 0 → 点 1
+  // 段2（real）：点 1 → 点 4 实线
+  // 段0 是单点，无需画线
+
+  // 段1 (点 0→1) 虚线 approximate
+  el(s, 'path', {
+    d: `M${x(0)} ${y(prices[0])} L${x(1)} ${y(prices[1])}`,
+    fill: 'none', stroke: DATA, 'stroke-width': 2,
+    'stroke-dasharray': '4 4', opacity: 0.5,
+    class: 'draw', style: 'animation-duration:.8s;animation-delay:.1s'
+  });
+
+  // 段2 (点 1→4) 实线 main trend
+  const realPts = [1,2,3,4].map(d => `${x(d)} ${y(prices[d])}`).join(' L ');
+  el(s, 'path', {
+    d: 'M' + realPts,
+    fill: 'none', stroke: DATA, 'stroke-width': 3,
+    pathLength: 1, class: 'draw', style: 'animation-duration:2.5s;animation-delay:.3s'
+  });
+
+  // 折线下面积提示（淡淡的，强调 7,704 是 current）
+  // 不画面积，纯线条更干净
+
+  // 5 个圆点 + 数值标签
+  prices.forEach((v, d) => {
+    const isLast = d === N - 1;
+    const isApproxPoint = isApprox[d];
+    el(s, 'circle', {
+      cx: x(d), cy: y(v),
+      r: isLast ? 18 : (isApproxPoint ? 10 : 12),
+      fill: isLast ? HERO_BRIGHT : (isApproxPoint ? '#FFFFFF' : HERO),
+      stroke: isLast ? HERO_BRIGHT : DATA,
+      'stroke-width': isLast ? 4 : (isApproxPoint ? 3 : 0),
+      class: 'pop',
+      style: `animation-delay:${1.0 + d * 0.12}s`
+    });
+    // 数值标签
+    txt(s, {
+      x: x(d), y: y(v) - 38,
+      'font-size': 32, 'font-weight': 800,
+      fill: isLast ? HERO_BRIGHT : TXT,
+      'text-anchor': 'middle',
+      style: `paint-order: stroke; stroke: ${'#F7F2EB'}; stroke-width: 7px; animation-delay:${1.5 + d * 0.08}s`,
+      class: 'fade'
+    }, isApproxPoint ? `~${v}` : v.toString());
+  });
+
+  // 日期标签
+  days.forEach((m, d) =>
+    txt(s, {
+      x: x(d), y: base + 56,
+      'font-size': 26, 'font-weight': 700,
+      fill: MUT, 'text-anchor': 'middle',
+      'letter-spacing': '.06em',
+      class: 'fade',
+      style: `animation-delay:${2.2 + d * 0.06}s`
+    }, m)
+  );
+
+  // Approx 标注
+  txt(s, {
+    x: x(0), y: y(prices[0]) - 80,
+    'font-size': 18, 'font-weight': 800,
+    fill: FAINT, 'text-anchor': 'middle',
+    'letter-spacing': '.14em',
+    class: 'fade',
+    style: 'animation-delay:1.0s'
+  }, 'APPROX');
+
+  // 跌幅标注（最后一段 9/12→9/15）
+  const dropX = (x(2) + x(4)) / 2;
+  const dropY = (y(prices[2]) + y(prices[4])) / 2 - 130;
+  txt(s, {
+    x: dropX, y: dropY,
+    'font-size': 42, 'font-weight': 900,
+    fill: HERO_BRIGHT, 'text-anchor': 'middle',
+    'letter-spacing': '-.01em',
+    class: 'fade',
+    style: 'animation-delay:2.6s'
+  }, '-7.76%');
+
+  // 副标题：3-session drop
+  txt(s, {
+    x: dropX, y: dropY + 38,
+    'font-size': 20, 'font-weight': 700,
+    fill: MUT, 'text-anchor': 'middle',
+    'letter-spacing': '.08em',
+    class: 'fade',
+    style: 'animation-delay:2.7s'
+  }, '3-SESSION DROP');
+}
+drawSulfur();
+
+// ============ Nav Dots ============
+function buildNav() {
+  const nav = document.getElementById('nav');
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.dataset.idx = i;
+    d.addEventListener('click', () => go(i));
+    nav.appendChild(d);
+  }
+}
+buildNav();
+function updateNav() {
+  document.querySelectorAll('#nav .dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+}
+
+// ============ Animation Replay ============
+const classToAnim = {
+  'fade': 'fade',
+  'slide-up': 'slide-up',
+  'draw': 'draw',
+  'pop': 'pop',
+  'bar-grow': 'barGrow'
+};
+
+function replayPageAnimations(newPage) {
+  if (!newPage) return;
+  // 重启整页动画
+  newPage.style.animation = 'none';
+  void newPage.offsetWidth;
+  newPage.style.animation = '';
+  // 重启所有子元素动画
+  newPage.querySelectorAll('.fade, .slide-up, .draw, .pop, .bar-grow').forEach(el => {
+    const classStr = el.getAttribute('class') || '';
+    const classes = classStr.split(/\s+/);
+    const animName = classes.map(c => classToAnim[c]).find(Boolean);
+    if (!animName) return;
+    const cur = getComputedStyle(el).animationDuration;
+    const dur = cur && cur !== '0s' ? cur : '0.9s';
+    const delay = el.style.animationDelay || '0s';
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = `${animName} ${dur} ${delay} both`;
+  });
+}
+
+// ============ Go ============
+function go(idx) {
+  const newIdx = Math.max(0, Math.min(TOTAL - 1, idx));
+  if (newIdx === current) return;
+  current = newIdx;
+  document.getElementById('deck').style.transform = `translateX(-${current * 100}vw)`;
+  if (current === 1) drawSulfur();
+  const pages = document.querySelectorAll('.page');
+  replayPageAnimations(pages[current]);
+  updateNav();
+  history.replaceState(null, '', `#page-${current + 1}`);
+}
+
+// ============ Events ============
+document.getElementById('prev').addEventListener('click', () => go(current - 1));
+document.getElementById('next').addEventListener('click', () => go(current + 1));
+
+let touchStartX = 0;
+let touchEndX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  const dx = touchEndX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    if (dx < 0) go(current + 1);
+    else go(current - 1);
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') go(current - 1);
+  if (e.key === 'ArrowRight') go(current + 1);
+});
+
+// ============ Hash routing ============
+function parseHash() {
+  const m = window.location.hash.match(/^#page-(\d)$/);
+  if (m) {
+    const idx = parseInt(m[1], 10) - 1;
+    if (idx >= 0 && idx < TOTAL) {
+      current = idx;
+      const deck = document.getElementById('deck');
+      deck.style.transition = 'none';
+      deck.style.transform = `translateX(-${current * 100}vw)`;
+      const pages = document.querySelectorAll('.page');
+      if (current === 1) drawSulfur();
+      replayPageAnimations(pages[current]);
+      requestAnimationFrame(() => requestAnimationFrame(() => deck.style.transition = ''));
+      updateNav();
+    }
+  }
+}
+parseHash();
+window.addEventListener('hashchange', parseHash);
+</script>
+</body>
+</html>
